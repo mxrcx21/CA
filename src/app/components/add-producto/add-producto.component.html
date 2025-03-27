@@ -1,0 +1,128 @@
+<div class="container">
+    <div class="d-flex flex-column"> 
+        <!-- Alertas -->
+        <div class="alert alert-success col-12 mb-3" role="alert" *ngIf="showsuccess">
+            Registro Realizado!!!
+        </div>
+        <div class="alert alert-danger col-12 mb-3" role="alert" *ngIf="showError">
+            No se pudo realizar el registro!!!
+        </div>
+        
+        <!-- Formulario -->
+        <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+            <!-- Campo Nombre Producto -->
+            <div class="form-group mb-3">
+                <label for="nombre">Nombre del Producto</label>
+                <input type="text" formControlName="nombre" id="nombre" class="form-control" 
+                       placeholder="Nombre del producto"
+                      >
+                <div *ngIf="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched">
+                    <small *ngIf="productoForm.get('nombre')?.hasError('required')" class="text-danger">Nombre del producto requerido</small>
+                    <small *ngIf="productoForm.get('nombre')?.hasError('minlength')" class="text-danger">Debe tener al menos 3 caracteres</small>
+                </div>
+            </div>
+            
+            <!-- Campo Descripción -->
+            <div class="form-group mb-3">
+                <label for="descripcion">Descripción</label>
+                <textarea formControlName="descripcion" id="descripcion" class="form-control" 
+                          placeholder="Descripción del producto"></textarea>
+                <div *ngIf="productoForm.get('descripcion')?.invalid && productoForm.get('descripcion')?.touched" >
+                    <small *ngIf="productoForm.get('descripcion')?.hasError('required')" class="text-danger">Descripción requerida</small>
+                    <small *ngIf="productoForm.get('descripcion')?.hasError('minlength')" class="text-danger">Mínimo 10 caracteres</small>
+                </div>
+            </div>
+            
+            <!-- Campos de Precio -->
+            <div class="row mb-3">
+                <div class="col-md-6 form-group">
+                    <label for="precio_compra">Precio de Compra</label>
+                    <input type="number" step="0.01" formControlName="precio_compra" id="precio_compra" class="form-control" 
+                           placeholder="Precio de compra"
+                          >
+                    <div *ngIf="productoForm.get('precio_compra')?.invalid && productoForm.get('precio_compra')?.touched" >
+                        <small *ngIf="productoForm.get('precio_compra')?.hasError('required')" class="text-danger">Precio requerido</small>
+                        <small *ngIf="productoForm.get('precio_compra')?.hasError('min')" class="text-danger">Debe ser mayor a 0</small>
+                    </div>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="precio_venta">Precio de Venta</label>
+                    <input type="number" step="0.01" formControlName="precio_venta" id="precio_venta" class="form-control" 
+                           placeholder="Precio de venta"
+                          >
+                    <div *ngIf="productoForm.get('precio_venta')?.invalid && productoForm.get('precio_venta')?.touched" >
+                        <small *ngIf="productoForm.get('precio_venta')?.hasError('required')" class="text-danger">Precio requerido</small>
+                        <small *ngIf="productoForm.get('precio_venta')?.hasError('min')" class="text-danger">Debe ser mayor a 0</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Campo Stock Mínimo -->
+            <div class="form-group mb-3">
+                <label for="stock_min">Stock Mínimo</label>
+                <input type="number" formControlName="stock_min" id="stock_min" class="form-control" 
+                       placeholder="Cantidad mínima en stock"
+                      >
+                <div *ngIf="productoForm.get('stock_min')?.invalid && productoForm.get('stock_min')?.touched" >
+                    <small *ngIf="productoForm.get('stock_min')?.hasError('required')" class="text-danger">Stock requerido</small>
+                    <small *ngIf="productoForm.get('stock_min')?.hasError('min')" class="text-danger">Debe ser al menos 1</small>
+                </div>
+            </div>
+            <!-- Campo Estado (Select) -->
+            <div class="form-group mb-4">
+                <label for="estado_id">Estado</label>
+                <select formControlName="estado_id" id="estado_id" class="form-control"
+                       >
+                    <option value="" disabled selected>Seleccione una Estado<option>
+                    <option *ngFor="let est of estado" [value]="est.codigo">
+                        {{ est.descripcion}}
+                    </option>
+                </select>
+                <div *ngIf="productoForm.get('estado_id')?.invalid && productoForm.get('estado_id')?.touched" >
+                    <small *ngIf="productoForm.get('estado_id')?.hasError('required')" class="text-danger">
+                       El estado es requerido
+                    </small>
+                </div>
+            </div>
+            <!-- Campo Categoría (Select) -->
+            <div class="form-group mb-4">
+                <label for="categoria_id">Categoría</label>
+                <select formControlName="categoria_id" id="categoria_id" class="form-control"
+                       >
+                    <option value="" disabled selected>Seleccione una categoría</option>
+                    <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">
+                        {{ categoria.nombre }}
+                    </option>
+                </select>
+                <div *ngIf="productoForm.get('categoria_id')?.invalid && productoForm.get('categoria_id')?.touched" >
+                    <small *ngIf="productoForm.get('categoria_id')?.hasError('required')" class="text-danger">
+                        La categoría es requerida
+                    </small>
+                </div>
+            </div>
+            
+             <!-- Campo Proveedor (Select) -->
+             <div class="form-group mb-4">
+                <label for="proveedor_id">Proveedor</label>
+                <select formControlName="proveedor_id" id="proveedor_id" class="form-control"
+                        >
+                    <option value="" disabled selected>Seleccione un Proveedor<option>
+                    <option *ngFor="let proveedor of proveedores" [value]="proveedor.id_proveedor">
+                        {{ proveedor.nombre}}
+                    </option>
+                </select>
+                <div *ngIf="productoForm.get('proveedor_id')?.invalid && productoForm.get('proveedor_id')?.touched" >
+                    <small *ngIf="productoForm.get('proveedor_id')?.hasError('required')" class="text-danger">
+                       El Proveedor es requerido
+                    </small>
+                </div>
+            </div>
+            <!-- Botón de Submit -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark" [disabled]="productoForm.invalid">
+                    Registrar Producto
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
