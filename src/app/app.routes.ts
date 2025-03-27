@@ -7,6 +7,8 @@ import { AddProductoComponent } from './components/add-producto/add-producto.com
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { NgModule } from '@angular/core';
+import { AddCategoriaComponent } from './components/add-categoria/add-categoria.component';
+import { AddProveedorComponent } from './components/add-proveedor/add-proveedor.component';
 
 export const routes: Routes = [
     {path:'principal', component:PrincipalComponent},
@@ -16,6 +18,8 @@ export const routes: Routes = [
     {path:'usuario', component:UsuarioComponent},
     {path:'producto', component:ProductoComponent},
     {path:'add-producto', component:AddProductoComponent},
+    {path:'add-categoria', component:AddCategoriaComponent},
+    {path:'add-proveedor', component:AddProveedorComponent},
     { path: '', redirectTo: '', pathMatch: 'full' }, 
     {path:'**', redirectTo:''}
 ];

@@ -7,12 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class CategoriaService {
 
-  private apiurl = "https://localhost:44363/api/categoria/lista";
+  private apiurl = "https://localhost:44363/api/categoria";
 
   constructor(private http : HttpClient) { }
 
   GetCategoria():Observable<any>{
-    return this.http.get(this.apiurl);
+    return this.http.get(this.apiurl+'/lista');
+  }
+
+  CrearCategoria(body: any): Observable<any> {
+    return this.http.post(this.apiurl, body);
   }
 
   private parametrosUrl = "https://localhost:44363/api/parametro/";

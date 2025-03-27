@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="d-flex flex-column"> 
+        <!-- Alertas -->
+        <div class="alert alert-success col-12 mb-3" role="alert" *ngIf="showsuccess">
+            Categoria Registrada.
+        </div>
+        <div class="alert alert-danger col-12 mb-3" role="alert" *ngIf="showError">
+            No se pudo registrar la categoría.
+        </div>
+        
+        <!-- Formulario -->
+        <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
+            <!-- Campo Nombre Categoría -->
+            <div class="form-group mb-3">
+                <label for="nombre">Nombre de la Categoría</label>
+                <input type="text" formControlName="nombre" id="nombre" class="form-control" 
+                       placeholder="Nombre de la categoría">
+                <div *ngIf="categoriaForm.get('nombre')?.invalid && categoriaForm.get('nombre')?.touched">
+                    <small *ngIf="categoriaForm.get('nombre')?.hasError('required')" class="text-danger">Nombre requerido</small>
+                </div>
+            </div>
+            
+            <!-- Campo Descripción -->
+            <div class="form-group mb-3">
+                <label for="descripcion">Descripción</label>
+                <textarea formControlName="descripcion" id="descripcion" class="form-control" 
+                          placeholder="Descripción de la categoría"></textarea>
+                <div *ngIf="categoriaForm.get('descripcion')?.invalid && categoriaForm.get('descripcion')?.touched">
+                    <small *ngIf="categoriaForm.get('descripcion')?.hasError('required')" class="text-danger">Descripción requerida</small>
+                </div>
+            </div>
+            
+            <!-- Campo Estado (Select) -->
+            <div class="form-group mb-4">
+                <label for="estado_id">Estado</label>
+                <select formControlName="estado_id" id="estado_id" class="form-control">
+                    <option value="" disabled selected>Seleccione un estado</option>
+                    <option *ngFor="let est of estado" [value]="est.codigo">
+                        {{ est.descripcion }}
+                    </option>
+                </select>
+                <div *ngIf="categoriaForm.get('estado_id')?.invalid && categoriaForm.get('estado_id')?.touched">
+                    <small *ngIf="categoriaForm.get('estado_id')?.hasError('required')" class="text-danger">
+                        El estado es requerido
+                    </small>
+                </div>
+            </div>
+            
+            <!-- Botón de Submit -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark" [disabled]="categoriaForm.invalid">
+                    Registrar Categoría
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -17,10 +17,14 @@
             <td>{{prod.id_producto}}</td>
             <td>{{prod.nombre}}</td>
             <td>{{prod.descripcion}}</td>
-            <td>{{prod.precio_compra | currency}}</td>
-            <td>{{prod.precio_venta | currency}}</td>
+            <td>{{prod.precio_compra | currency: 'S/ ':'symbol':'1.2-2'}}</td>
+            <td>{{prod.precio_venta | currency: 'S/ ':'symbol':'1.2-2'}}</td>
             <td>{{prod.stock_min}}</td>
-            <td>{{prod.estado}}</td>
+            <td *ngIf="prod" 
+    [ngClass]="prod.estado === 'Disponible' ? 'text-success' : 'text-danger'">
+  {{ prod.estado }}
+</td>
+
             <td>{{prod.categoria}}</td>
             <td>{{prod.proveedor}}</td>
         </tr>

@@ -6,15 +6,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProveedorService {
 
-  private apiurl = "https://localhost:44363/api/prove/list";
+  private apiurl = "https://localhost:44363/api/prove";
 
   constructor(private http : HttpClient) { }
 
   GetProveedor():Observable<any>{
-    return this.http.get(this.apiurl);
+    return this.http.get(this.apiurl+'/list');
   }
 
-  // agregarUsuario(body: any):Observable<any>{
-  //   return this.http.post(this.apiurl,body);
-  // }
+  agregarProveedor(body: any):Observable<any>{
+    return this.http.post(this.apiurl,body);
+  }
 }
