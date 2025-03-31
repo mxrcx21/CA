@@ -16,7 +16,10 @@
             <td>{{provee.nombre_compania}}</td>
             <td>{{provee.contacto}}</td>
             <td>{{provee.correo}}</td>
-            <td>{{provee.estado}}</td>
+            <td
+            *ngIf="provee" 
+    [ngClass]="provee.estado === 'Activo' ? 'text-success' : 'text-danger'"
+            >{{provee.estado}}</td>
         </tr>
         <tr *ngIf="Proveedor.length === 0">
             <td colspan="6" class="text-center text-danger fw-bold">No hay usuarios registrados</td>

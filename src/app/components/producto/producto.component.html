@@ -1,35 +1,377 @@
 <table class="table table-striped table-hover table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio Compra</th>
-            <th>Precio Venta</th>
-            <th>Stock Mínimo</th>
-            <th>Estado</th>
-            <th>Categoría</th>
-            <th>Proveedor</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let prod of Productos">
-            <td>{{prod.id_producto}}</td>
-            <td>{{prod.nombre}}</td>
-            <td>{{prod.descripcion}}</td>
-            <td>{{prod.precio_compra | currency: 'S/ ':'symbol':'1.2-2'}}</td>
-            <td>{{prod.precio_venta | currency: 'S/ ':'symbol':'1.2-2'}}</td>
-            <td>{{prod.stock_min}}</td>
-            <td *ngIf="prod" 
-    [ngClass]="prod.estado === 'Disponible' ? 'text-success' : 'text-danger'">
-  {{ prod.estado }}
-</td>
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Precio Compra</th>
+      <th>Precio Venta</th>
+      <th>Stock Mínimo</th>
+      <th>Estado</th>
+      <th>Categoría</th>
+      <th>Proveedor</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let prod of Productos">
+      <td>{{ prod.id_producto }}</td>
+      <td>{{ prod.nombre }}</td>
+      <td>{{ prod.descripcion }}</td>
+      <td>{{ prod.precio_compra | currency : "S/ " : "symbol" : "1.2-2" }}</td>
+      <td>{{ prod.precio_venta | currency : "S/ " : "symbol" : "1.2-2" }}</td>
+      <td>{{ prod.stock_min }}</td>
+      <td
+        [ngClass]="
+          prod.estado === 'Disponible' ? 'text-success' : 'text-danger'
+        "
+      >
+        {{ prod.estado }}
+      </td>
 
-            <td>{{prod.categoria}}</td>
-            <td>{{prod.proveedor}}</td>
-        </tr>
-        <tr *ngIf="Productos.length === 0">
-            <td colspan="9" class="text-center text-danger fw-bold">No hay productos registrados</td>
-        </tr>
-    </tbody>
+      <td>{{ prod.categoria }}</td>
+      <td>{{ prod.proveedor }}</td>
+      <td>
+        <div class="d-flex align-items-center gap-2">
+            <button
+            type="button"
+            class="btn btn-success btn-sm "
+            data-bs-toggle="modal"
+            data-bs-target="#editarProducto"
+            (click)="getProductoByID(prod.id_producto)"
+          >
+          <i class="bi bi-pencil-square"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            (click)="eliminarProducto(prod.id_producto)"
+          >
+          <i class="bi bi-trash3"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="Productos.length === 0">
+      <td colspan="9" class="text-center text-danger fw-bold">
+        No hay productos registrados
+      </td>
+    </tr>
+  </tbody>
 </table>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editarProducto"
+  tabindex="-1"
+  aria-labelledby="editarProductoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="editarProducto">Actualizar Producto</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Alertas -->
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+          *ngIf="showsuccess"
+        >
+          <strong>¡Éxito!</strong> El producto se ha actualizado correctamente.
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showsuccess = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          *ngIf="showError"
+        >
+          <strong>¡Error!</strong> No se pudo actualizar el producto.
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showError = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <!-- Formulario -->
+        <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+          <!-- ID (oculto) -->
+          <input
+            type="hidden"
+            formControlName="id_producto"
+            [ngModel]="productoByID.id_producto"
+          />
+
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del Producto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              formControlName="nombre"
+              [ngModel]="productoByID.nombre"
+              [ngClass]="{
+                'is-invalid':
+                  productoForm.get('nombre')?.invalid &&
+                  productoForm.get('nombre')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                productoForm.get('nombre')?.invalid &&
+                productoForm.get('nombre')?.touched
+              "
+            >
+              El nombre del producto es requerido
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea
+              class="form-control"
+              id="descripcion"
+              formControlName="descripcion"
+              rows="3"
+              [ngModel]="productoByID.descripcion"
+              [ngClass]="{
+                'is-invalid':
+                  productoForm.get('descripcion')?.invalid &&
+                  productoForm.get('descripcion')?.touched
+              }"
+            ></textarea>
+          </div>
+
+          <!-- Precios -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="precio_compra" class="form-label"
+                >Precio de Compra</label
+              >
+              <div class="input-group">
+                <span class="input-group-text">S/</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  id="precio_compra"
+                  formControlName="precio_compra"
+                  [ngModel]="productoByID.precio_compra"
+                  [ngClass]="{
+                    'is-invalid':
+                      productoForm.get('precio_compra')?.invalid &&
+                      productoForm.get('precio_compra')?.touched
+                  }"
+                />
+              </div>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  productoForm.get('precio_compra')?.invalid &&
+                  productoForm.get('precio_compra')?.touched
+                "
+              >
+                Precio válido requerido (mínimo 0)
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="precio_venta" class="form-label"
+                >Precio de Venta</label
+              >
+              <div class="input-group">
+                <span class="input-group-text">S/</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  id="precio_venta"
+                  formControlName="precio_venta"
+                  [ngModel]="productoByID.precio_venta"
+                  [ngClass]="{
+                    'is-invalid':
+                      productoForm.get('precio_venta')?.invalid &&
+                      productoForm.get('precio_venta')?.touched
+                  }"
+                />
+              </div>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  productoForm.get('precio_venta')?.invalid &&
+                  productoForm.get('precio_venta')?.touched
+                "
+              >
+                Precio válido requerido (mínimo 0)
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock Mínimo -->
+          <div class="mb-3">
+            <label for="stock_min" class="form-label">Stock Mínimo</label>
+            <input
+              type="number"
+              class="form-control"
+              id="stock_min"
+              formControlName="stock_min"
+              [ngModel]="productoByID.stock_min"
+              [ngClass]="{
+                'is-invalid':
+                  productoForm.get('stock_min')?.invalid &&
+                  productoForm.get('stock_min')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                productoForm.get('stock_min')?.invalid &&
+                productoForm.get('stock_min')?.touched
+              "
+            >
+              Stock mínimo requerido
+            </div>
+          </div>
+
+          <!-- Estado -->
+          <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select
+              class="form-select"
+              id="estado"
+              formControlName="estado"
+              [(ngModel)]="productoByID.estado_id"
+              [ngClass]="{
+                'is-invalid':
+                  productoForm.get('estado')?.invalid &&
+                  productoForm.get('estado')?.touched
+              }"
+            >
+              <option value="" disabled selected>Seleccione un estado</option>
+              <option
+                *ngFor="let est of estado"
+                [value]="est.codigo"
+                [selected]="est.codigo === productoByID.estado_id?.value"
+              >
+                {{ est.descripcion }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                productoForm.get('estado')?.invalid &&
+                productoForm.get('estado')?.touched
+              "
+            >
+              Estado requerido
+            </div>
+          </div>
+
+          <!-- Categoría -->
+          <div class="mb-3">
+            <label for="categoria" class="form-label">Categoría</label>
+            <select
+              class="form-select"
+              id="categoria"
+              formControlName="categoria"
+              [(ngModel)]="productoByID.categoria_id"
+              [ngClass]="{
+                'is-invalid':
+                  productoForm.get('categoria')?.invalid &&
+                  productoForm.get('categoria')?.touched
+              }"
+            >
+              <option value="" disabled selected>
+                Seleccione una categoría
+              </option>
+              <option
+                *ngFor="let cat of categorias"
+                [value]="cat.id_categoria"
+                [selected]="
+                  cat.id_categoria === productoByID.categoria_id?.value
+                "
+              >
+                {{ cat.nombre }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                productoForm.get('categoria')?.invalid &&
+                productoForm.get('categoria')?.touched
+              "
+            >
+              Categoría requerida
+            </div>
+          </div>
+
+          <!-- Proveedor -->
+          <div class="mb-4">
+            <label for="proveedor" class="form-label">Proveedor</label>
+            <select
+              class="form-select"
+              id="proveedor"
+              formControlName="proveedor"
+              [(ngModel)]="productoByID.proveedor_id"
+              [ngClass]="{
+                'is-invalid':
+                  productoForm.get('proveedor')?.invalid &&
+                  productoForm.get('proveedor')?.touched
+              }"
+            >
+              <option value="" disabled selected>
+                Seleccione un proveedor
+              </option>
+              <option
+                *ngFor="let prov of proveedores"
+                [value]="prov.id_proveedor"
+                [selected]="prov.id_proveedor"
+              >
+                {{ prov.nombre }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                productoForm.get('proveedor')?.invalid &&
+                productoForm.get('proveedor')?.touched
+              "
+            >
+              Proveedor requerido
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="productoForm.invalid"
+            >
+              <i class="bi bi-save me-1"></i> Actualizar Producto
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

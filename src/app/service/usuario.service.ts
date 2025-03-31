@@ -14,4 +14,8 @@ export class UsuarioService {
   GetUsuario():Observable<any>{
     return this.http.get(this.apiurl);
   }
+
+  CrearUsuario(body : any):Observable<any>{
+    return this.http.post(this.apiurl,body);
+  }
 }

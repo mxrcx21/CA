@@ -12,7 +12,9 @@
             <td>{{cat.id_categoria}}</td>
             <td>{{cat.nombre}}</td>
             <td>{{cat.descripcion}}</td>
-            <td>{{cat.estado}}</td>
+            <td
+            *ngIf="cat" 
+    [ngClass]="cat.estado === 'Activa' ? 'text-success' : 'text-danger'">{{cat.estado}}</td>
         </tr>
         <tr *ngIf="Categoria.length === 0">
             <td colspan="4" class="text-center text-danger fw-bold">No hay categorías registradas</td>

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-add-proveedor',
+  standalone: true,
   imports: [CommonModule,ReactiveFormsModule,RouterModule],
   templateUrl: './add-proveedor.component.html',
   styleUrl: './add-proveedor.component.scss'

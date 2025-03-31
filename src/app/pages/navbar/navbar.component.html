@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs bg-dark">
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Producto</a>
       <ul class="dropdown-menu">
@@ -42,5 +42,29 @@
               <a class="dropdown-item" [routerLink]="['/add-proveedor']" routerLinkActive="router-link-active">Agregar</a>
           </li>
         </ul>
+    </li>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Usuario</a>
+        <ul class="dropdown-menu">
+          <li>
+              <a class="dropdown-item" [routerLink]="['/usuario']" routerLinkActive="router-link-active">Tabla</a>
+          </li>
+          <li>
+              <hr class="dropdown-divider">
+          </li>
+          <li>
+              <a class="dropdown-item" [routerLink]="['/add-usuario']" routerLinkActive="router-link-active">Agregar</a>
+          </li>
+        </ul>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link text-white" href="#" >
+            <i class="bi bi-person-fill" ></i>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="" class="btn btn-danger"><i class="bi bi-box-arrow-right mx-2"></i>Cerrar sesión</a>
     </li>
 </ul>

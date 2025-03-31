@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ProductoService {
 
   private apiurl = "https://localhost:44363/api/producto";
-  private apiurltabla = "https://localhost:44363/api/producto/list";
+
   constructor(private http : HttpClient) { }
 
   GetProducto():Observable<any>{
@@ -16,9 +16,19 @@ export class ProductoService {
   }
 
  GetProductoTabla():Observable<any>{
-    return this.http.get(this.apiurltabla);
+    return this.http.get(this.apiurl + '/list');
   }
   CrearProducto(body: any): Observable<any> {
     return this.http.post(this.apiurl, body);
+  }
+  getProductoByID(id: number): Observable<any> {
+    return this.http.get(`${this.apiurl}/${id}`);
+  }
+  EditarProducto(body: any): Observable<any> {
+    return this.http.put(this.apiurl, body);
+  }
+
+  EliminarProducto(id:any): Observable<any> {
+    return this.http.delete(`${this.apiurl}/${id}`);
   }
 }
