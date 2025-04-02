@@ -17,4 +17,15 @@ export class ProveedorService {
   agregarProveedor(body: any):Observable<any>{
     return this.http.post(this.apiurl,body);
   }
+
+  getProveedorByID(id: number): Observable<any> {
+    return this.http.get(`${this.apiurl}/${id}`);
+  }
+  editarProveedor(body: any): Observable<any> {
+    return this.http.put(this.apiurl, body);
+  }
+
+  eliminarProveedor(id:any): Observable<any> {
+    return this.http.delete(`${this.apiurl}/${id}`);
+  }
 }

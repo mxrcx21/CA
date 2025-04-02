@@ -1,25 +1,220 @@
 <table class="table table-striped table-hover table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let cat of Categoria">
-            <td>{{cat.id_categoria}}</td>
-            <td>{{cat.nombre}}</td>
-            <td>{{cat.descripcion}}</td>
-            <td
-            *ngIf="cat" 
-    [ngClass]="cat.estado === 'Activa' ? 'text-success' : 'text-danger'">{{cat.estado}}</td>
-        </tr>
-        <tr *ngIf="Categoria.length === 0">
-            <td colspan="4" class="text-center text-danger fw-bold">No hay categorías registradas</td>
-        </tr>
-    </tbody>
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cat of Categoria">
+      <td>{{ cat.id_categoria }}</td>
+      <td>{{ cat.nombre }}</td>
+      <td>{{ cat.descripcion }}</td>
+      <td
+        *ngIf="cat"
+        [ngClass]="cat.estado === 'Activa' ? 'text-success' : 'text-danger'"
+      >
+        {{ cat.estado }}
+      </td>
+      <td>
+        <div class="d-flex align-items-center gap-2">
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#editarCategoria"
+            (click)="getCategoriaByID(cat.id_categoria)"
+          >
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm"
+            (click)="eliminarCategoria(cat.id_categoria)">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="Categoria.length === 0">
+      <td colspan="4" class="text-center text-danger fw-bold">
+        No hay categorías registradas
+      </td>
+    </tr>
+  </tbody>
 </table>
-<router-outlet></router-outlet>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editarCategoria"
+  tabindex="-1"
+  aria-labelledby="editarCategoriaLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="editarCategoria">Actualizar Producto</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
 
+      <div class="modal-body">
+        <!-- Alertas -->
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+          *ngIf="showsuccess"
+        >
+          <strong>¡Éxito!</strong> El producto se ha actualizado correctamente.
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showsuccess = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          *ngIf="showError"
+        >
+          <strong>¡Error!</strong> No se pudo actualizar el producto.
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showError = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <!-- Formulario -->
+        <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
+          <!-- ID (oculto) -->
+          <input
+            type="hidden"
+            formControlName="id_categoria"
+            [ngModel]="categoriaByID.id_categoria"
+          />
+            <div class="row mb-3">
+            <!-- Campo Nombre Categoría -->
+            <div class="col-md-6 form-group">
+              <label for="nombre">Nombre de la Categoría</label>
+              <input
+                type="text"
+                formControlName="nombre"
+                id="nombre"
+                class="form-control"
+                placeholder="Nombre de la categoría"
+                id="nombre"
+                [(ngModel)]="categoriaByID.nombre"
+                [ngClass]="{
+                  'is-invalid':
+                    categoriaForm.get('nombre')?.invalid &&
+                    categoriaForm.get('nombre')?.touched
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  categoriaForm.get('nombre')?.invalid &&
+                  categoriaForm.get('nombre')?.touched
+                "
+              >
+                <small
+                  *ngIf="categoriaForm.get('nombre')?.hasError('required')"
+                  class="text-danger"
+                  >Nombre requerido</small
+                >
+              </div>
+            </div>
+            <!-- Campo Estado (Select) -->
+            <div class="col-md-6 form-group">
+              <label for="estado">Estado</label>
+              <select
+              class="form-select"
+              id="estado"
+              formControlName="estado"
+              [(ngModel)]="categoriaByID.estado_id"
+              [ngClass]="{
+                'is-invalid':
+                  categoriaForm.get('estado')?.invalid &&
+                  categoriaForm.get('estado')?.touched
+              }"
+            >
+              <option value="" disabled selected>Seleccione un estado</option>
+              <option
+                *ngFor="let est of estado"
+                [value]="est.codigo"
+                [selected]="est.codigo === categoriaByID.estado_id?.value"
+              >
+                {{ est.descripcion }}
+              </option>
+            </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  categoriaForm.get('estado_id')?.invalid &&
+                  categoriaForm.get('estado_id')?.touched
+                "
+              >
+                <small
+                  *ngIf="categoriaForm.get('estado_id')?.hasError('required')"
+                  class="text-danger"
+                >
+                  El estado es requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- Campo Descripción -->
+          <div class="form-group mb-3">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              formControlName="descripcion"
+              id="descripcion"
+              class="form-control"
+              placeholder="Descripción de la categoría"
+              [ngModel]="categoriaByID.descripcion"
+              [ngClass]="{
+                'is-invalid':
+                  categoriaForm.get('descripcion')?.invalid &&
+                  categoriaForm.get('descripcion')?.touched
+              }"
+            ></textarea>
+            <div class="invalid-feedback"
+              *ngIf="
+                categoriaForm.get('descripcion')?.invalid &&
+                categoriaForm.get('descripcion')?.touched
+              "
+            >
+              <small
+                *ngIf="categoriaForm.get('descripcion')?.hasError('required')"
+                class="text-danger"
+                >Descripción requerida</small
+              >
+            </div>
+          </div>
+
+          <!-- Botón de Submit -->
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-dark"
+              [disabled]="categoriaForm.invalid"
+            >
+            <i class="bi bi-arrow-clockwise"> Actualizar</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

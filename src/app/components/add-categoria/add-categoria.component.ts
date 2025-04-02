@@ -36,9 +36,11 @@ export class AddCategoriaComponent {
         console.log(response);
         this.showsuccess = true;
         this.categoriaForm.reset();
+        setTimeout(() => this.showsuccess = false, 3000);
       }, error => {
         console.log("error al agregar la Categoria",error);
         this.showError = true;
+        setTimeout(() => this.showError = false, 3000);
       }
       )
     }else{

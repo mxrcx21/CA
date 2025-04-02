@@ -10,6 +10,7 @@ import { NgModule } from '@angular/core';
 import { AddCategoriaComponent } from './components/add-categoria/add-categoria.component';
 import { AddProveedorComponent } from './components/add-proveedor/add-proveedor.component';
 import { AddUsuarioComponent } from './components/add-usuario/add-usuario.component';
+import { InventarioComponent } from './components/inventario/inventario.component';
 
 
 export const routes: Routes = [
@@ -23,6 +24,7 @@ export const routes: Routes = [
     {path:'add-categoria', component:AddCategoriaComponent},
     {path:'add-proveedor', component:AddProveedorComponent},
     {path:'add-usuario', component:AddUsuarioComponent},
+    {path:'inventario', component:InventarioComponent},
     { path: '', redirectTo: '', pathMatch: 'full' }, 
     {path:'**', redirectTo:''}
 ];

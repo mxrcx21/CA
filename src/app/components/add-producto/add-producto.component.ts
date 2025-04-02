@@ -47,9 +47,11 @@ export class AddProductoComponent {
         console.log(response);
         this.showsuccess = true;
         this.productoForm.reset();
+        setTimeout(() => this.showsuccess = false, 3000);
       }, error => {
         console.log("error al agregar el producto",error);
         this.showError = true;
+        setTimeout(() => this.showError = false, 3000);
       }
       )
     }else{

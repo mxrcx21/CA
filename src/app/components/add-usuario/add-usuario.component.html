@@ -13,7 +13,7 @@
         <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
             <!-- campo usuario -->
             <div class="row mb-3">
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                 <label>Usuario</label>
                 <input type="text" class="form-control" formControlName="usuario">
                 <div *ngIf="usuarioForm.get('usuario')?.invalid && usuarioForm.get('usuario')?.touched">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <!-- campo clave -->
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
                 <label>Clave</label>
                 <input type="password" class="form-control" formControlName="clave">
                 <div *ngIf="usuarioForm.get('clave')?.invalid && usuarioForm.get('clave')?.touched">
@@ -30,19 +30,20 @@
                     <small *ngIf="usuarioForm.get('clave')?.hasError('minlength')" class="text-danger">Debe tener al menos 6 caracteres.</small>
                 </div>
             </div>
-        </div>
-        <!-- campo DNI -->
-        <div class="col-md-6 form-group">
-                <label>DNI</label>
-                <input type="text" class="form-control" formControlName="dni">
-                <div *ngIf="usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched">
-                    <small *ngIf="usuarioForm.get('dni')?.hasError('required')" class="text-danger">DNI es requerido.</small>
-                    <small *ngIf="usuarioForm.get('dni')?.hasError('pattern')" class="text-danger">DNI debe tener 8 dígitos.</small>
-                </div>
+            <!-- campo DNI -->
+        <div class="col-md-2 form-group">
+            <label>DNI</label>
+            <input type="text" class="form-control" formControlName="dni">
+            <div *ngIf="usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched">
+                <small *ngIf="usuarioForm.get('dni')?.hasError('required')" class="text-danger">DNI es requerido.</small>
+                <small *ngIf="usuarioForm.get('dni')?.hasError('pattern')" class="text-danger">DNI debe tener 8 dígitos.</small>
             </div>
+        </div>
+        </div>
+        
             <!-- Campo de nombre y apellido -->
             <div class="row mb-3">
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     <label>Nombre</label>
                     <input type="text" class="form-control" formControlName="nombre">
                     <div *ngIf="usuarioForm.get('nombre')?.invalid && usuarioForm.get('nombre')?.touched">
@@ -50,7 +51,7 @@
                         <small *ngIf="usuarioForm.get('nombre')?.hasError('minlength')" class="text-danger">Debe tener al menos 3 caracteres.</small>
                     </div>
                 </div>
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     <label>Apellido</label>
                     <input type="text" class="form-control" formControlName="apellido">
                     <div *ngIf="usuarioForm.get('apellido')?.invalid && usuarioForm.get('apellido')?.touched">
@@ -58,15 +59,17 @@
                         <small *ngIf="usuarioForm.get('apellido')?.hasError('minlength')" class="text-danger">Debe tener al menos 3 caracteres.</small>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 form-group">
-                <label>Fecha de Nacimiento</label>
-                <input type="date" class="form-control" formControlName="fecha_nacimiento">
-                <div *ngIf="usuarioForm.get('fecha_nacimiento')?.invalid && usuarioForm.get('fecha_nacimiento')?.touched">
-                    <small *ngIf="usuarioForm.get('fecha_nacimiento')?.hasError('required')" class="text-danger">Fecha de Nacimiento es requerida.</small>
+                <div class="col-md-2 form-group">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" formControlName="fecha_nacimiento">
+                    <div *ngIf="usuarioForm.get('fecha_nacimiento')?.invalid && usuarioForm.get('fecha_nacimiento')?.touched">
+                        <small *ngIf="usuarioForm.get('fecha_nacimiento')?.hasError('required')" class="text-danger">Fecha de Nacimiento es requerida.</small>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="row mb-3">
+            <!-- campo direccion -->
+            <div class="col-md-4 form-group">
                 <label>Dirección</label>
                 <input type="text" class="form-control" formControlName="direccion">
                 <div *ngIf="usuarioForm.get('direccion')?.invalid && usuarioForm.get('direccion')?.touched">
@@ -75,7 +78,7 @@
             
             </div>
             <!-- campo telefono -->
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
                 <label>Celular</label>
                 <input type="text" class="form-control" formControlName="telefono">
                 <div *ngIf="usuarioForm.get('telefono')?.invalid && usuarioForm.get('telefono')?.touched">
@@ -84,13 +87,14 @@
                 </div>
             </div>
             <!-- campo correo -->
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
                 <label>Correo</label>
                 <input type="email" class="form-control" formControlName="correo">
                 <div *ngIf="usuarioForm.get('correo')?.invalid && usuarioForm.get('correo')?.touched">
                     <small *ngIf="usuarioForm.get('correo')?.hasError('required')" class="text-danger">Correo es requerido.</small>
                     <small *ngIf="usuarioForm.get('correo')?.hasError('email')" class="text-danger">Debe ser un correo válido.</small>
                 </div>
+            </div>
             </div>
             <div class="row mb-3">
                  <!-- select genero -->
@@ -130,7 +134,7 @@
             
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-dark" [disabled]="usuarioForm.invalid">
-                    Registrar
+                    <i class="bi bi-plus-circle"> Registrar</i>
                 </button>
             </div>
         </form>

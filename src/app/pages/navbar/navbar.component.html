@@ -1,6 +1,6 @@
-<ul class="nav nav-tabs bg-dark">
+<ul class="nav nav-tabs" style="background-color: #2e85ff;">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Producto</a>
+      <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Producto</a>
       <ul class="dropdown-menu">
         <li>
             <a class="dropdown-item" [routerLink]="['/producto']" routerLinkActive="router-link-active">Tabla</a>
@@ -15,7 +15,7 @@
     </li>
 
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Categoría</a>
+        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Categoría</a>
         <ul class="dropdown-menu">
           <li>
               <a class="dropdown-item" [routerLink]="['/categoria']" routerLinkActive="router-link-active">Tabla</a>
@@ -30,7 +30,7 @@
     </li>
 
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Proveedor</a>
+        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Proveedor</a>
         <ul class="dropdown-menu">
           <li>
               <a class="dropdown-item" [routerLink]="['/proveedor']" routerLinkActive="router-link-active">Tabla</a>
@@ -45,7 +45,7 @@
     </li>
 
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Usuario</a>
+        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Usuario</a>
         <ul class="dropdown-menu">
           <li>
               <a class="dropdown-item" [routerLink]="['/usuario']" routerLinkActive="router-link-active">Tabla</a>
@@ -58,13 +58,22 @@
           </li>
         </ul>
     </li>
-
-    <li class="nav-item">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Movimientos</a>
+        <ul class="dropdown-menu">
+          <li>
+              <a class="dropdown-item" [routerLink]="['/inventario']" routerLinkActive="router-link-active">Tabla</a>
+          </li>
+        </ul>
+    </li>
+    <li class="nav-item ms-auto">
         <a class="nav-link text-white" href="#" >
             <i class="bi bi-person-fill" ></i>
         </a>
     </li>
     <li class="nav-item">
-        <a href="" class="btn btn-danger"><i class="bi bi-box-arrow-right mx-2"></i>Cerrar sesión</a>
+        
     </li>
 </ul>
+
+

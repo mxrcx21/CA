@@ -1,5 +1,7 @@
-<div class="container">
-    <div class="d-flex flex-column"> 
+
+<div class="card shadow p-3 mb-5 bg-body rounded">
+    <div class="container">
+     <div class="d-flex flex-column">  
         <!-- Alertas -->
         <div class="alert alert-success col-12 mb-3" role="alert" *ngIf="showsuccess">
             Registro Realizado!!!
@@ -7,7 +9,7 @@
         <div class="alert alert-danger col-12 mb-3" role="alert" *ngIf="showError">
             No se pudo realizar el registro!!!
         </div>
-        
+        <div class="card-body">
         <!-- Formulario -->
         <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
             <!-- Campo Nombre Producto -->
@@ -35,7 +37,7 @@
             
             <!-- Campos de Precio -->
             <div class="row mb-3">
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     <label for="precio_compra">Precio de Compra</label>
                     <input type="number" step="0.01" formControlName="precio_compra" id="precio_compra" class="form-control" 
                            placeholder="Precio de compra"
@@ -45,7 +47,7 @@
                         <small *ngIf="productoForm.get('precio_compra')?.hasError('min')" class="text-danger">Debe ser mayor a 0</small>
                     </div>
                 </div>
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     <label for="precio_venta">Precio de Venta</label>
                     <input type="number" step="0.01" formControlName="precio_venta" id="precio_venta" class="form-control" 
                            placeholder="Precio de venta"
@@ -55,10 +57,8 @@
                         <small *ngIf="productoForm.get('precio_venta')?.hasError('min')" class="text-danger">Debe ser mayor a 0</small>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Campo Stock Mínimo -->
-            <div class="form-group mb-3">
+                <!-- Campo Stock Mínimo -->
+            <div class="col-md-4 form-group">
                 <label for="stock_min">Stock Mínimo</label>
                 <input type="number" formControlName="stock_min" id="stock_min" class="form-control" 
                        placeholder="Cantidad mínima en stock"
@@ -68,8 +68,10 @@
                     <small *ngIf="productoForm.get('stock_min')?.hasError('min')" class="text-danger">Debe ser al menos 1</small>
                 </div>
             </div>
+            </div>
+            <div class="row mb-3">
             <!-- Campo Estado (Select) -->
-            <div class="form-group mb-4">
+            <div class="col-md-4 form-group">
                 <label for="estado_id">Estado</label>
                 <select formControlName="estado_id" id="estado_id" class="form-control"
                        >
@@ -85,7 +87,7 @@
                 </div>
             </div>
             <!-- Campo Categoría (Select) -->
-            <div class="form-group mb-4">
+            <div class="col-md-4 form-group">
                 <label for="categoria_id">Categoría</label>
                 <select formControlName="categoria_id" id="categoria_id" class="form-control"
                        >
@@ -102,7 +104,7 @@
             </div>
             
              <!-- Campo Proveedor (Select) -->
-             <div class="form-group mb-4">
+             <div class="col-md-4 form-group">
                 <label for="proveedor_id">Proveedor</label>
                 <select formControlName="proveedor_id" id="proveedor_id" class="form-control"
                         >
@@ -117,12 +119,14 @@
                     </small>
                 </div>
             </div>
+            </div>
             <!-- Botón de Submit -->
             <div class="form-group">
                 <button type="submit" class="btn btn-dark" [disabled]="productoForm.invalid">
-                    Registrar Producto
+                    <i class="bi bi-plus-circle"> Registrar</i>
                 </button>
             </div>
         </form>
+        </div>
     </div>
 </div>

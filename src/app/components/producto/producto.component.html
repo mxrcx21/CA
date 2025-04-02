@@ -6,6 +6,7 @@
       <th>Descripción</th>
       <th>Precio Compra</th>
       <th>Precio Venta</th>
+      <th>Stock</th>
       <th>Stock Mínimo</th>
       <th>Estado</th>
       <th>Categoría</th>
@@ -20,6 +21,7 @@
       <td>{{ prod.descripcion }}</td>
       <td>{{ prod.precio_compra | currency : "S/ " : "symbol" : "1.2-2" }}</td>
       <td>{{ prod.precio_venta | currency : "S/ " : "symbol" : "1.2-2" }}</td>
+      <td>{{prod.stock}}</td>
       <td>{{ prod.stock_min }}</td>
       <td
         [ngClass]="
@@ -375,3 +377,4 @@
     </div>
   </div>
 </div>
+<router-outlet></router-outlet>

@@ -25,4 +25,15 @@ export class CategoriaService {
     const params = new HttpParams().set('nombre', nombre);
     return this.http.get<any>(this.parametrosUrl, { params });
   }
+
+  getCategoriaByID(id: number): Observable<any> {
+    return this.http.get(`${this.apiurl}/${id}`);
+  }
+  editarCategoria(body: any): Observable<any> {
+    return this.http.put(this.apiurl, body);
+  }
+
+  eliminarCategoria(id:any): Observable<any> {
+    return this.http.delete(`${this.apiurl}/${id}`);
+  }
 }

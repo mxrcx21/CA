@@ -48,10 +48,12 @@ export class AddUsuarioComponent {
           console.log(response);
           this.showsuccess = true;
           this.usuarioForm.reset();
+          setTimeout(() => this.showsuccess = false, 3000);
         },
         error => {
           console.log("Error al agregar el usuario", error);
           this.showError = true;
+          setTimeout(() => this.showError = false, 3000);
         }
       );
     } else {

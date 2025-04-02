@@ -1,1 +1,223 @@
-<p>inventario works!</p>
+<table class="table table-striped table-hover table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Observaciones</th>
+      <th>Referencia</th>
+      <th>Movimiento</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let inv of inventario">
+      <td>{{ inv.id_movimiento }}</td>
+      <td>{{ inv.observaciones }}</td>
+      <td>{{ inv.doc_referencia }}</td>
+      <td>{{ inv.tipo_movimiento }}</td>
+      <td>{{ inv.fecha }}</td>
+      <td>{{ inv.hora }}</td>
+      <td>
+        <div class="d-flex align-items-center gap-2">
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#cargarDi"
+            (click)="cargarDinventario(inv.id_movimiento)"
+            title="Ver Detalles"
+          >
+            <i class="bi bi-table"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#addDi"
+            (click)="getID(inv.id_movimiento)"
+            title="Agregar Detalles"
+          >
+            <i class="bi bi-plus"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="inventario.length === 0">
+      <td colspan="8" class="text-center text-danger fw-bold">
+        No hay usuarios registrados
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- Modal Tabla Detalle-->
+<div
+  class="modal fade"
+  id="cargarDi"
+  tabindex="-1"
+  aria-labelledby="cargarDiLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #8fabff">
+        <h5 class="modal-title" id="cargarDi">Detalle de Movimiento</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped table-hover table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Cantidad</th>
+              <th>Producto</th>
+              <th>Movimiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dinv of dinventario">
+              <td>{{ dinv.id_detalle }}</td>
+              <td>{{ dinv.Cantidad }}</td>
+              <td>{{ dinv.Producto }}</td>
+              <td>{{ dinv.TipoMovimiento }}</td>
+            </tr>
+            <tr *ngIf="inventario.length === 0">
+              <td colspan="3" class="text-center text-danger fw-bold">
+                No hay Detalles Registrados
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Agregar Detalle -->
+<div
+  class="modal fade"
+  id="addDi"
+  tabindex="-1"
+  aria-labelledby="addDiLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="addDi">Agregar Detalle</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Alertas -->
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+          *ngIf="showsuccess"
+        >
+          <strong>¡Éxito!</strong> El detalle se agrego.
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showsuccess = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          *ngIf="showError"
+        >
+          <strong>¡Error!</strong> No se pudo agregar el detalle.
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showError = false"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <!-- Formulario -->
+        <form [formGroup]="DIform" (ngSubmit)="onSubmit()">
+          <!-- ID (oculto) -->
+          <input
+            type="hidden"
+            formControlName="MovimientoId"
+            [(ngModel)]="IDMov"
+          />
+          <label for="ProductoId">Producto</label>
+          <select
+            formControlName="ProductoId"
+            id="ProductoId"
+            class="form-control"
+          >
+            <option value="" disabled selected>Seleccione un Producto</option>
+            <option *ngFor="let pro of producto" [value]="pro.id_producto">
+              {{ pro.nombre }} Disponibles: {{ pro.stock - pro.stock_min }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              DIform.get('ProductoId')?.invalid &&
+              DIform.get('ProductoId')?.touched
+            "
+          >
+            <small
+              *ngIf="DIform.get('ProductoId')?.hasError('required')"
+              class="text-danger"
+            >
+              El Producto es requerido
+            </small>
+          </div>
+          <!--Campo Cantidad -->
+          <label for="Cantidad">Cantidad</label>
+          <input
+            type="number"
+            formControlName="Cantidad"
+            id="Cantidad"
+            class="form-control"
+          />
+
+          <div
+            *ngIf="
+              DIform.get('Cantidad')?.invalid && DIform.get('Cantidad')?.touched
+            "
+          >
+            <small
+              *ngIf="DIform.get('Cantidad')?.hasError('required')"
+              class="text-danger"
+            >
+              La cantidad es requerida.
+            </small>
+            <small
+              *ngIf="DIform.get('Cantidad')?.hasError('min')"
+              class="text-danger"
+            >
+              La cantidad debe ser mayor que 0.
+            </small>
+            <small *ngIf="DIform.get('Cantidad')?.hasError('stockInsuficiente')" class="text-danger">
+              No hay suficiente stock disponible.
+            </small>
+            
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-dark mt-2" [disabled]="DIform.invalid">
+                <i class="bi bi-plus-circle"> Registrar</i>
+            </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

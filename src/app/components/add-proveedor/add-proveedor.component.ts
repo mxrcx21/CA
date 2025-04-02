@@ -39,10 +39,12 @@ export class AddProveedorComponent {
           console.log(response);
           this.showsuccess = true;
           this.proveedorForm.reset();
+          setTimeout(() => this.showsuccess = false, 3000);
         },
         error => {
           console.log("Error al agregar el proveedor", error);
           this.showError = true;
+          setTimeout(() => this.showError = false, 3000);
         }
       );
     } else {

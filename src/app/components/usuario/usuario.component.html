@@ -14,6 +14,7 @@
             <th>Género</th>
             <th>Rol</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,15 @@
             <td>{{user.genero_id}}</td>
             <td>{{user.rol_id}}</td>
             <td>{{user.estado_id}}</td>
+            <td>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editarUsuario">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
         </tr>
         <tr *ngIf="Usuarios.length === 0">
             <td colspan="14" class="text-center text-danger fw-bold">No hay usuarios registrados</td>
